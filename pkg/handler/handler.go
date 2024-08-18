@@ -31,7 +31,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	docs.SwaggerInfo.BasePath = BasePath
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
-	r.POST("/create", h.CreateShortURL)
+	r.POST("/", h.CreateShortURL)
 	r.GET("/:short_url", h.GetOriginalURL)
 
 	return r
@@ -51,7 +51,7 @@ type Error struct {
 // @Success 200 {object} models.UrlModel
 // @Failure 400 {object} Error
 // @Failure 500 {object} Error
-// @Router /create [post]
+// @Router / [post]
 func (h *Handler) CreateShortURL(c *gin.Context) {
 	var req models.UrlModel
 

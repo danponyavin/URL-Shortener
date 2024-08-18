@@ -15,6 +15,34 @@ info:
   contact: {}
   title: URL-Shortener Service API
 paths:
+  /:
+    post:
+      consumes:
+      - application/json
+      description: Создание короткой ссылки
+      parameters:
+      - description: Входные параметры
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/URL-Shortener_pkg_models.UrlModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/URL-Shortener_pkg_models.UrlModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/pkg_handler.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/pkg_handler.Error'
+      summary: Создание короткой ссылки
   /{short_url}:
     get:
       consumes:
@@ -43,32 +71,4 @@ paths:
           schema:
             $ref: '#/definitions/pkg_handler.Error'
       summary: Получение оригинальной ссылки
-  /create:
-    post:
-      consumes:
-      - application/json
-      description: Создание короткой ссылки
-      parameters:
-      - description: Входные параметры
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/URL-Shortener_pkg_models.UrlModel'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/URL-Shortener_pkg_models.UrlModel'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/pkg_handler.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/pkg_handler.Error'
-      summary: Создание короткой ссылки
 swagger: "2.0"

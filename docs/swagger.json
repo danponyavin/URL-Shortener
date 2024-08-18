@@ -5,7 +5,7 @@
         "contact": {}
     },
     "paths": {
-        "/create": {
+        "/": {
             "post": {
                 "description": "Создание короткой ссылки",
                 "consumes": [

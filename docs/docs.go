@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/create": {
+        "/": {
             "post": {
                 "description": "Создание короткой ссылки",
                 "consumes": [
