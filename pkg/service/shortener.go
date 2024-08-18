@@ -27,12 +27,12 @@ func (u *URLShortener) ShortenUrl(url string) (string, error) {
 
 	for {
 		shortenedURL = generateURL()
-		_, err := u.storage.GetUrl(shortenedURL)
+		_, err := u.storage.GetOriginalUrl(shortenedURL)
 		if err != nil {
 			if errors.Is(err, storage.UrlNotFoundError) {
 				break
 			} else {
-				log.Println("GetUrl Error:", err)
+				log.Println("GetOriginalUrl Error:", err)
 				return "", err
 			}
 		}
@@ -63,4 +63,14 @@ func generateURL() string {
 
 func getFullShortenedUrl(shortTag string) string {
 	return "http://localhost" + server.PORT + "/" + shortTag
+}
+
+func (u *URLShortener) GetOriginalUrl(shortTag string) (string, error) {
+	url, err := u.storage.GetOriginalUrl(shortTag)
+	if err != nil {
+		log.Println("GetOriginalUrl Error:", err)
+		return "", err
+	}
+
+	return url, nil
 }

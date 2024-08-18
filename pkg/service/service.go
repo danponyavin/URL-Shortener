@@ -4,6 +4,7 @@ import "URL-Shortener/pkg/storage"
 
 type Shortener interface {
 	ShortenUrl(url string) (string, error)
+	GetOriginalUrl(shortTag string) (string, error)
 }
 
 type Services struct {

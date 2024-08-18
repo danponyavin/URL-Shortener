@@ -9,7 +9,7 @@ var UrlNotFoundError = errors.New("url not found")
 
 type URLStorage interface {
 	SaveUrl(shortUrl string, originalUrl string) error
-	GetUrl(shortUrl string) (string, error)
+	GetOriginalUrl(shortUrl string) (string, error)
 }
 
 type LocalStorage struct {
@@ -35,7 +35,7 @@ func (l *LocalStorage) SaveUrl(shortUrl string, originalUrl string) error {
 	return nil
 }
 
-func (p *PostgresStorage) GetUrl(shortUrl string) (string, error) {
+func (p *PostgresStorage) GetOriginalUrl(shortUrl string) (string, error) {
 	var originalUrl string
 	err := p.db.QueryRow("SELECT original_url FROM urls WHERE short_url = $1", shortUrl).Scan(&originalUrl)
 	if err != nil {
@@ -48,7 +48,7 @@ func (p *PostgresStorage) GetUrl(shortUrl string) (string, error) {
 	return originalUrl, nil
 }
 
-func (l *LocalStorage) GetUrl(shortUrl string) (string, error) {
+func (l *LocalStorage) GetOriginalUrl(shortUrl string) (string, error) {
 	if url, ok := l.data[shortUrl]; ok {
 		return url, nil
 	}
