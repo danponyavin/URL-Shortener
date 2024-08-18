@@ -1,11 +1,14 @@
 package handler
 
 import (
+	"URL-Shortener/docs"
 	"URL-Shortener/pkg/models"
 	"URL-Shortener/pkg/service"
 	"URL-Shortener/pkg/storage"
 	"errors"
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 )
 
@@ -19,8 +22,14 @@ func NewHandler(services *service.Services) *Handler {
 	return &Handler{services: services}
 }
 
+const BasePath = "/"
+
+// @BasePath /
 func (h *Handler) InitRoutes() *gin.Engine {
 	r := gin.Default()
+
+	docs.SwaggerInfo.BasePath = BasePath
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	r.POST("/create", h.CreateShortURL)
 	r.GET("/:short_url", h.GetOriginalURL)
@@ -32,6 +41,17 @@ type Error struct {
 	Message string `json:"message"`
 }
 
+// RefreshTokens godoc
+// @Summary Создание короткой ссылки
+// @Schemes
+// @Description Создание короткой ссылки
+// @Accept json
+// @Produce json
+// @Param data body models.UrlModel true "Входные параметры"
+// @Success 200 {object} models.UrlModel
+// @Failure 400 {object} Error
+// @Failure 500 {object} Error
+// @Router /create [post]
 func (h *Handler) CreateShortURL(c *gin.Context) {
 	var req models.UrlModel
 
@@ -49,6 +69,17 @@ func (h *Handler) CreateShortURL(c *gin.Context) {
 	c.JSON(http.StatusOK, models.UrlModel{Url: shortURL})
 }
 
+// GetTokens godoc
+// @Summary Получение оригинальной ссылки
+// @Schemes
+// @Description Получение оригинальной ссылки
+// @Accept json
+// @Produce json
+// @Param short_url path string true "Short URL" Example(dkmNJ2x)
+// @Success 200 {object} models.UrlModel
+// @Failure 400 {object} Error
+// @Failure 500 {object} Error
+// @Router /{short_url} [get]
 func (h *Handler) GetOriginalURL(c *gin.Context) {
 	shortURL := c.Param("short_url")
 	if shortURL == "" {

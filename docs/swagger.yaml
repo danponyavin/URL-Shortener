@@ -1,0 +1,74 @@
+definitions:
+  URL-Shortener_pkg_models.UrlModel:
+    properties:
+      url:
+        type: string
+    required:
+    - url
+    type: object
+  pkg_handler.Error:
+    properties:
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: URL-Shortener Service API
+paths:
+  /{short_url}:
+    get:
+      consumes:
+      - application/json
+      description: Получение оригинальной ссылки
+      parameters:
+      - description: Short URL
+        example: dkmNJ2x
+        in: path
+        name: short_url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/URL-Shortener_pkg_models.UrlModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/pkg_handler.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/pkg_handler.Error'
+      summary: Получение оригинальной ссылки
+  /create:
+    post:
+      consumes:
+      - application/json
+      description: Создание короткой ссылки
+      parameters:
+      - description: Входные параметры
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/URL-Shortener_pkg_models.UrlModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/URL-Shortener_pkg_models.UrlModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/pkg_handler.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/pkg_handler.Error'
+      summary: Создание короткой ссылки
+swagger: "2.0"

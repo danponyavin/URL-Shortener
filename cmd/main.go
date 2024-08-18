@@ -8,6 +8,8 @@ import (
 	"flag"
 )
 
+// @title URL-Shortener Service API
+// main godoc
 func main() {
 	databaseFlag := flag.Bool("d", false, "Use database")
 	flag.Parse()
