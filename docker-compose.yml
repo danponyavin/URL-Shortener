@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  url-shortener-app:
+    container_name: url-shortener-app
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      POSTGRES_HOST: url_db
+      POSTGRES_PORT: 5432
+
+  db:
+    container_name: url_db
+    restart: always
+    image: postgres:latest
+    volumes:
+      - ./.database/postgres/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: mypass
+      POSTGRES_DB: test
+      POSTGRES_SSLMODE: disable
+    ports:
+      - "5436:5432"
