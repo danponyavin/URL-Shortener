@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+const PORT = ":8080"
+
 type Server struct {
 	Server *http.Server
 }
@@ -15,7 +17,7 @@ func NewServer() *Server {
 
 func (s *Server) Run(handler http.Handler) error {
 	s.Server = &http.Server{
-		Addr:           ":8080",
+		Addr:           PORT,
 		Handler:        handler,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,

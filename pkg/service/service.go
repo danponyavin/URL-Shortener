@@ -3,6 +3,7 @@ package service
 import "URL-Shortener/pkg/storage"
 
 type Shortener interface {
+	ShortenUrl(url string) (string, error)
 }
 
 type Services struct {
